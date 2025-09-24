@@ -4,10 +4,14 @@ Create a basic version (MVP) of a digital twin system that collects and analyzes
 
 Key Features Explained
 •	Simulate live data from multiple wearable devices for many patients.
+
 •	Send data immediately from devices to a central entry point, storing records in a MySQL database.
 •	Use Spark Structured Streaming for real-time processing and extracting relevant features from the incoming data.
+
 •	Build and run a Python machine learning model that provides a score for patient health risk (deterioration).
+
 •	Serve the prediction model online and set up automated alerts triggered by specific risk thresholds.
+
 •	Visualize the system’s predictions and compare them to actual readings in Power BI—so users can see “digital twin” outcomes vs. reality.
 
 <img width="458" height="443" alt="image" src="https://github.com/user-attachments/assets/b09bc3fc-2bc4-4948-9190-8cf1cb768aeb" />
