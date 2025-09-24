@@ -1,0 +1,31 @@
+version: '3.8'
+
+services:
+  digital-twin-api:
+    build: .
+    ports:
+      - "8000:8000"
+    volumes:
+      - ./data:/app/data
+    environment:
+      - API_HOST=0.0.0.0
+      - API_PORT=8000
+    healthcheck:
+      test: ["CMD", "python", "-c", "import requests; requests.get('http://localhost:8000/health')"]
+      interval: 30s
+      timeout: 10s
+      retries: 3
+      start_period: 40s
+    restart: unless-stopped
+
+  data-simulator:
+    build: .
+    command: python data_simulator.py
+    depends_on:
+      - digital-twin-api
+    environment:
+      - API_BASE_URL=http://digital-twin-api:8000
+    restart: unless-stopped
+
+volumes:
+  data:

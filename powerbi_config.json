@@ -1,0 +1,134 @@
+{
+  "version": "1.0.0",
+  "name": "Digital Twin MedTech Dashboard",
+  "description": "Real-time patient monitoring and deterioration prediction dashboard",
+  "dataSource": {
+    "type": "REST API",
+    "baseUrl": "http://localhost:8000",
+    "endpoints": {
+      "overview": "/dashboard-data/overview",
+      "predictions": "/dashboard-data/predictions-vs-actual", 
+      "patients": "/patients",
+      "wearableData": "/wearable-data/{patient_id}",
+      "patientPredictions": "/predictions/{patient_id}"
+    },
+    "authentication": {
+      "type": "none",
+      "note": "For production, implement proper authentication"
+    }
+  },
+  "refreshSchedule": {
+    "interval": "15 minutes",
+    "autoRefresh": true
+  },
+  "visualizations": [
+    {
+      "name": "Patient Overview",
+      "type": "card",
+      "source": "overview",
+      "metrics": [
+        "total_patients",
+        "total_data_points", 
+        "total_predictions"
+      ]
+    },
+    {
+      "name": "Risk Distribution",
+      "type": "donut_chart",
+      "source": "overview",
+      "field": "risk_distribution",
+      "groupBy": "risk_level",
+      "measure": "count"
+    },
+    {
+      "name": "Prediction Accuracy",
+      "type": "gauge",
+      "source": "predictions",
+      "field": "accuracy",
+      "target": 85
+    },
+    {
+      "name": "Predictions vs Actual Timeline",
+      "type": "line_chart",
+      "source": "predictions",
+      "xAxis": "timestamp",
+      "yAxis": "deterioration_risk",
+      "series": [
+        {
+          "name": "Predicted Risk",
+          "field": "deterioration_risk"
+        },
+        {
+          "name": "Actual Outcome",
+          "field": "actual_outcome"
+        }
+      ]
+    },
+    {
+      "name": "Confusion Matrix",
+      "type": "matrix",
+      "source": "predictions",
+      "field": "confusion_matrix",
+      "dimensions": ["predicted", "actual"]
+    },
+    {
+      "name": "Patient Risk Levels",
+      "type": "table",
+      "source": "predictions", 
+      "fields": [
+        "patient_id",
+        "timestamp",
+        "risk_level",
+        "deterioration_risk",
+        "prediction_accuracy"
+      ],
+      "sorting": {
+        "field": "timestamp",
+        "order": "desc"
+      }
+    }
+  ],
+  "filters": [
+    {
+      "name": "Patient Filter",
+      "type": "dropdown",
+      "field": "patient_id",
+      "source": "patients"
+    },
+    {
+      "name": "Date Range",
+      "type": "date_range",
+      "field": "timestamp",
+      "default": "last_7_days"
+    },
+    {
+      "name": "Risk Level",
+      "type": "multi_select",
+      "field": "risk_level",
+      "options": ["Low", "Medium", "High"]
+    }
+  ],
+  "powerbi": {
+    "setup_instructions": [
+      "1. Open Power BI Desktop",
+      "2. Click 'Get Data' > 'Web'",
+      "3. Enter API endpoint URLs from the endpoints section",
+      "4. Configure data refresh to 15 minutes",
+      "5. Create visualizations based on the visualization config",
+      "6. Publish to Power BI Service",
+      "7. Set up scheduled refresh in the service"
+    ],
+    "api_endpoints": [
+      {
+        "name": "Dashboard Overview",
+        "url": "http://localhost:8000/dashboard-data/overview",
+        "method": "GET"
+      },
+      {
+        "name": "Predictions vs Actual",
+        "url": "http://localhost:8000/dashboard-data/predictions-vs-actual", 
+        "method": "GET"
+      }
+    ]
+  }
+}
