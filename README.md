@@ -6,6 +6,7 @@ Key Features Explained
 •	Simulate live data from multiple wearable devices for many patients.
 
 •	Send data immediately from devices to a central entry point, storing records in a MySQL database.
+
 •	Use Spark Structured Streaming for real-time processing and extracting relevant features from the incoming data.
 
 •	Build and run a Python machine learning model that provides a score for patient health risk (deterioration).
