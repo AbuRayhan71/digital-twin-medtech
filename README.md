@@ -1,6 +1,3 @@
-<img width="468" height="428" alt="image" src="https://github.com/user-attachments/assets/c38b71f2-d12f-4791-be82-8d4c9a315ae5" /># digital-twin-medtech
-Quick overview
-
 Project Goal
 Create a basic version (MVP) of a digital twin system that collects and analyzes data from wearable devices in real-time, predicts patient deterioration risk, stores all the records, and displays a comparison of predictions versus actual patient data using a Power BI dashboard.
 
